@@ -1,0 +1,260 @@
+/* =========================================================
+   FINAL CTA
+========================================================= */
+
+.final-cta {
+    position: relative;
+  
+    padding: 115px 0 110px;
+  
+    background: var(--color-deep-rose);
+  
+    color: white;
+  
+    overflow: hidden;
+  }
+  
+  
+  /* =========================================================
+     DECORATIVE GLOW
+  ========================================================= */
+  
+  .final-cta::before {
+    content: "";
+  
+    position: absolute;
+  
+    width: 420px;
+    height: 420px;
+  
+    top: -220px;
+    left: 50%;
+  
+    transform: translateX(-50%);
+  
+    border-radius: 50%;
+  
+    background: var(--color-rose);
+  
+    opacity: 0.18;
+  
+    filter: blur(70px);
+  
+    pointer-events: none;
+  }
+  
+  
+  /* =========================================================
+     CONTAINER
+  ========================================================= */
+  
+  .final-cta__container {
+    position: relative;
+    z-index: 1;
+  
+    width: min(850px, 90%);
+  
+    margin: 0 auto;
+  
+    text-align: center;
+  }
+  
+  
+  /* =========================================================
+     EYEBROW
+  ========================================================= */
+  
+  .final-cta__eyebrow {
+    margin: 0 0 20px;
+  
+    font-size: 0.68rem;
+  
+    font-weight: 600;
+  
+    letter-spacing: 0.28em;
+  
+    color: var(--color-blush);
+  }
+  
+  
+  /* =========================================================
+     TITLE
+  ========================================================= */
+  
+  .final-cta__title {
+    margin: 0;
+  
+    font-family: "Cormorant Garamond", serif;
+  
+    font-size: clamp(4rem, 7vw, 7rem);
+  
+    font-weight: 500;
+  
+    line-height: 0.88;
+  
+    letter-spacing: -0.035em;
+  
+    color: var(--color-cream);
+  }
+  
+  .final-cta__title span {
+    display: block;
+  
+    color: var(--color-blush);
+  }
+  
+  
+  /* =========================================================
+     DESCRIPTION
+  ========================================================= */
+  
+  .final-cta__description {
+    max-width: 420px;
+  
+    margin: 26px auto 0;
+  
+    font-size: 0.92rem;
+  
+    line-height: 1.75;
+  
+    color: rgba(255, 255, 255, 0.68);
+  }
+  
+  
+  /* =========================================================
+     BUTTON
+  ========================================================= */
+  
+  .final-cta__button {
+    display: inline-flex;
+  
+    align-items: center;
+  
+    justify-content: center;
+  
+    gap: 18px;
+  
+    margin-top: 30px;
+  
+    padding: 16px 28px;
+  
+    border-radius: 50px;
+  
+    background: var(--color-cream);
+  
+    color: var(--color-deep-rose);
+  
+    font-size: 0.78rem;
+  
+    font-weight: 600;
+  
+    letter-spacing: 0.08em;
+  
+    text-transform: uppercase;
+  
+    transition:
+      transform 0.3s ease,
+      background-color 0.3s ease;
+  }
+  
+  .final-cta__button span {
+    font-size: 1.1rem;
+  
+    transition: transform 0.3s ease;
+  }
+  
+  .final-cta__button:hover {
+    transform: translateY(-3px);
+  
+    background: white;
+  }
+  
+  .final-cta__button:hover span {
+    transform: translateX(5px);
+  }
+  
+  
+  /* =========================================================
+     TABLET
+  ========================================================= */
+  
+  @media (max-width: 768px) {
+  
+    .final-cta {
+      padding: 80px 0 85px;
+    }
+  
+    .final-cta__container {
+      width: calc(100% - 32px);
+    }
+  
+    .final-cta__eyebrow {
+      margin-bottom: 18px;
+  
+      font-size: 0.64rem;
+  
+      letter-spacing: 0.22em;
+    }
+  
+    .final-cta__title {
+      font-size: clamp(3.5rem, 14vw, 5rem);
+    }
+  
+    .final-cta__description {
+      max-width: 310px;
+  
+      margin-top: 23px;
+  
+      font-size: 0.87rem;
+  
+      line-height: 1.7;
+    }
+  
+    .final-cta__button {
+      margin-top: 27px;
+  
+      padding: 14px 24px;
+  
+      font-size: 0.74rem;
+    }
+  }
+  
+  
+  /* =========================================================
+     SMALL MOBILE
+  ========================================================= */
+  
+  @media (max-width: 420px) {
+  
+    .final-cta {
+      padding: 65px 0 70px;
+    }
+  
+    .final-cta__container {
+      width: calc(100% - 24px);
+    }
+  
+    .final-cta__eyebrow {
+      margin-bottom: 16px;
+  
+      font-size: 0.61rem;
+  
+      letter-spacing: 0.2em;
+    }
+  
+    .final-cta__title {
+      font-size: 3.25rem;
+    }
+  
+    .final-cta__description {
+      max-width: 285px;
+  
+      margin-top: 21px;
+  
+      font-size: 0.83rem;
+    }
+  
+    .final-cta__button {
+      margin-top: 25px;
+    }
+  }

@@ -1,0 +1,61 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&&family=Allura&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+:root {
+  /* Brand Colors */
+  --color-ivory: #F8F1EC;
+  --color-cream: #FFFDFC;
+  --color-blush: #F5DDDD;
+  --color-dusty-rose: #C98F91;
+  --color-rose: #B85F70;
+  --color-deep-rose: #713B45;
+  --color-gold: #B99A6B;
+
+  /* Text */
+  --color-text: #30282A;
+  --color-text-muted: #78696C;
+
+  /* Borders */
+  --color-border: #E8D6D5;
+
+  /* Layout */
+  --container-width: 1280px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+
+  /* Shadows */
+  --shadow-soft: 0 10px 40px rgba(80, 40, 45, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--color-ivory);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}

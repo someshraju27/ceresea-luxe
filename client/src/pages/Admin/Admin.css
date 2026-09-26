@@ -1,0 +1,304 @@
+.admin-page {
+    min-height: calc(100vh - 80px);
+    padding: 70px 24px;
+    background: #f7f2ea;
+  }
+  
+  .admin-page__container {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+  }
+  
+  .admin-page__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 50px;
+  }
+  
+  .admin-page__eyebrow {
+    margin: 0 0 9px;
+    color: #c9a66b;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+  }
+  
+  .admin-page__header h1 {
+    margin: 0;
+    color: #2c2522;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(38px, 5vw, 58px);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+  
+  .admin-page__header h1 span {
+    display: block;
+    color: #8a7d75;
+  }
+  
+  .admin-page__admin-info {
+    text-align: right;
+  }
+  
+  .admin-page__admin-info span {
+    color: #c9a66b;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+  }
+  
+  .admin-page__admin-info p {
+    margin: 6px 0 0;
+    color: #6d625c;
+    font-size: 13px;
+  }
+  
+  /* Stats */
+  
+  .admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(44, 37, 34, 0.15);
+    border-bottom: 1px solid rgba(44, 37, 34, 0.15);
+  }
+  
+  .admin-stat {
+    min-height: 150px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .admin-stat + .admin-stat {
+    border-left: 1px solid rgba(44, 37, 34, 0.15);
+  }
+  
+  .admin-stat span {
+    color: #8a7d75;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  
+  .admin-stat strong {
+    color: #2c2522;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 38px;
+    font-weight: 400;
+  }
+  
+  /* Orders */
+  
+  .admin-orders {
+    margin-top: 70px;
+  }
+  
+  .admin-section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+  
+  .admin-section-header h2 {
+    margin: 0;
+    color: #2c2522;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 32px;
+    font-weight: 400;
+  }
+  
+  .admin-section-header > span {
+    color: #8a7d75;
+    font-size: 12px;
+  }
+  
+  .admin-orders__table-wrapper {
+    overflow-x: auto;
+    border: 1px solid rgba(44, 37, 34, 0.12);
+    background: #fffdf9;
+  }
+  
+  .admin-orders__table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+  }
+  
+  .admin-orders__table th {
+    padding: 17px 20px;
+    color: #9a8d85;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-align: left;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(44, 37, 34, 0.1);
+  }
+  
+  .admin-orders__table td {
+    padding: 20px;
+    color: #6d625c;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(44, 37, 34, 0.08);
+  }
+  
+  .admin-orders__table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  
+  .admin-orders__table tbody tr:hover {
+    background: #faf7f1;
+  }
+  
+  .admin-orders__table td strong {
+    color: #2c2522;
+    font-weight: 600;
+  }
+  
+  .admin-customer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .admin-customer strong {
+    font-size: 13px;
+  }
+  
+  .admin-customer span {
+    color: #9a8d85;
+    font-size: 11px;
+  }
+  
+  /* Status badges */
+  
+  .admin-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    font-size: 10px;
+    text-transform: capitalize;
+    border: 1px solid rgba(44, 37, 34, 0.15);
+  }
+  
+  .admin-badge--paid {
+    color: #4e6d4e;
+  }
+  
+  .admin-badge--confirmed {
+    color: #6a5a3c;
+  }
+  
+  .admin-badge--processing {
+    color: #6b5c42;
+  }
+  
+  .admin-badge--shipped {
+    color: #4f6570;
+  }
+  
+  .admin-badge--delivered {
+    color: #4e6d4e;
+  }
+  
+  .admin-badge--pending {
+    color: #8a6f42;
+  }
+  
+  .admin-badge--failed {
+    color: #a44a4a;
+  }
+  
+  /* Empty / Loading / Error */
+  
+  .admin-empty,
+  .admin-page__loading,
+  .admin-page__error {
+    padding: 60px 20px;
+    text-align: center;
+    border: 1px solid rgba(44, 37, 34, 0.12);
+    background: #fffdf9;
+  }
+  
+  .admin-empty p {
+    margin: 0;
+    color: #6d625c;
+    font-size: 14px;
+  }
+  
+  .admin-page__error h1 {
+    margin: 0 0 10px;
+    color: #2c2522;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+  }
+  
+  .admin-page__error p {
+    margin: 0;
+    color: #a44a4a;
+  }
+  
+  /* Mobile */
+  
+  @media (max-width: 800px) {
+    .admin-page {
+      padding: 50px 18px;
+    }
+  
+    .admin-page__header {
+      align-items: flex-start;
+      flex-direction: column;
+      margin-bottom: 40px;
+    }
+  
+    .admin-page__admin-info {
+      text-align: left;
+    }
+  
+    .admin-stats {
+      grid-template-columns: 1fr 1fr;
+    }
+  
+    .admin-stat:nth-child(3) {
+      border-left: 0;
+      border-top: 1px solid rgba(44, 37, 34, 0.15);
+    }
+  
+    .admin-stat:nth-child(4) {
+      border-top: 1px solid rgba(44, 37, 34, 0.15);
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .admin-stats {
+      grid-template-columns: 1fr;
+    }
+  
+    .admin-stat {
+      min-height: 120px;
+    }
+  
+    .admin-stat + .admin-stat {
+      border-left: 0;
+      border-top: 1px solid rgba(44, 37, 34, 0.15);
+    }
+  
+    .admin-stat strong {
+      font-size: 32px;
+    }
+  }
+
+  .admin-view-all {
+    color: #2c2522;
+    font-size: 12px;
+    text-decoration: none;
+  }
+  
+  .admin-view-all:hover {
+    color: #c9a66b;
+  }

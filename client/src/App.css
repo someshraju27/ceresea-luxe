@@ -1,0 +1,36 @@
+.app {
+  min-height: 100vh;
+}
+
+.container {
+  width: min(100% - 40px, var(--container-width));
+  margin-inline: auto;
+}
+
+.section {
+  padding: 100px 0;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.section-subtitle {
+  max-width: 600px;
+  margin-top: 20px;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: min(100% - 28px, var(--container-width));
+  }
+
+  .section {
+    padding: 70px 0;
+  }
+}

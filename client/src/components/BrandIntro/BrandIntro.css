@@ -1,0 +1,153 @@
+.brand-intro {
+    background: var(--color-cream);
+    text-align: center;
+    padding: 75px 0 80px;
+    scroll-margin-top: 68px;
+  }
+  
+  .brand-intro__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+    width: min(900px, 90%);
+    margin: 0 auto;
+  }
+  
+  .brand-intro__eyebrow {
+    margin-bottom: 24px;
+  
+    color: var(--color-rose);
+  
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+  }
+  
+  .brand-intro__title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 500;
+    line-height: 0.95;
+  
+    color: var(--color-deep-rose);
+  }
+  
+  .brand-intro__title span {
+    display: block;
+    color: var(--color-text);
+  }
+  
+  .brand-intro__description {
+    max-width: 650px;
+    margin-top: 35px;
+  
+    font-size: 1.05rem;
+    line-height: 1.9;
+  
+    color: var(--color-text-muted);
+  }
+  
+  .brand-intro__divider {
+    width: 180px;
+    margin: 38px 0;
+  
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .brand-intro__divider span {
+    height: 1px;
+    flex: 1;
+  
+    background: var(--color-border);
+  }
+  
+  .brand-intro__divider i {
+    color: var(--color-gold);
+    font-size: 0.8rem;
+    font-style: normal;
+  }
+  
+  .brand-intro__closing {
+    max-width: 500px;
+  
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.35rem;
+    line-height: 1.5;
+  
+    color: var(--color-deep-rose);
+  }
+  
+  
+  /* -----------------------------
+     MOBILE
+  ----------------------------- */
+  
+  @media (max-width: 768px) {
+    .brand-intro {
+      padding: 60px 0 65px;
+      scroll-margin-top: 312px;
+    }
+  
+    .brand-intro__container {
+      width: calc(100% - 32px);
+    }
+  
+    .brand-intro__eyebrow {
+      margin-bottom: 20px;
+  
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+    }
+  
+    .brand-intro__title {
+      font-size: clamp(3rem, 15vw, 4.2rem);
+    }
+  
+    .brand-intro__description {
+      max-width: 330px;
+      margin-top: 28px;
+  
+      font-size: 0.92rem;
+      line-height: 1.75;
+    }
+  
+    .brand-intro__divider {
+      width: 140px;
+      margin: 30px 0;
+    }
+  
+    .brand-intro__closing {
+      max-width: 320px;
+  
+      font-size: 1.2rem;
+    }
+  }
+  
+  
+  @media (max-width: 420px) {
+    .brand-intro {
+      padding: 50px 0 55px;
+    }
+  
+    .brand-intro__container {
+      width: calc(100% - 24px);
+    }
+  
+    .brand-intro__title {
+      font-size: 3rem;
+    }
+  
+    .brand-intro__description {
+      max-width: 290px;
+      font-size: 0.86rem;
+    }
+  
+    .brand-intro__closing {
+      max-width: 285px;
+      font-size: 1.1rem;
+    }
+  }

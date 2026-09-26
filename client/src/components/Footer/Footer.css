@@ -1,0 +1,260 @@
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    padding: 75px 0 25px;
+  
+    background: var(--color-text);
+  
+    color: var(--color-cream);
+  }
+  
+  
+  /* =========================================================
+     CONTAINER
+  ========================================================= */
+  
+  .footer__container {
+    width: min(1200px, 90%);
+  
+    margin: 0 auto;
+  
+    display: grid;
+  
+    grid-template-columns: 1fr 1.5fr;
+  
+    gap: 80px;
+  }
+  
+  
+  /* =========================================================
+     BRAND
+  ========================================================= */
+  
+  .footer__logo {
+    display: inline-block;
+  
+    font-family: "Cormorant Garamond", serif;
+  
+    font-size: 2.5rem;
+  
+    font-weight: 600;
+  
+    line-height: 1;
+  
+    color: var(--color-cream);
+  
+    letter-spacing: 0.02em;
+  }
+  
+  .footer__tagline {
+    margin-top: 18px;
+  
+    font-family: "Cormorant Garamond", serif;
+  
+    font-size: 1.15rem;
+  
+    line-height: 1.35;
+  
+    color: var(--color-blush);
+  }
+  
+  
+  /* =========================================================
+     LINKS
+  ========================================================= */
+  
+  .footer__links {
+    display: grid;
+  
+    grid-template-columns: repeat(3, 1fr);
+  
+    gap: 40px;
+  }
+  
+  .footer__column {
+    display: flex;
+  
+    flex-direction: column;
+  
+    align-items: flex-start;
+  }
+  
+  .footer__column h3 {
+    margin: 0 0 18px;
+  
+    font-size: 0.68rem;
+  
+    font-weight: 600;
+  
+    letter-spacing: 0.2em;
+  
+    text-transform: uppercase;
+  
+    color: var(--color-blush);
+  }
+  
+  .footer__column a {
+    margin-bottom: 10px;
+  
+    font-size: 0.78rem;
+  
+    color: rgba(255, 255, 255, 0.68);
+  
+    transition: color 0.25s ease;
+  }
+  
+  .footer__column a:hover {
+    color: white;
+  }
+  
+  
+  /* =========================================================
+     BOTTOM
+  ========================================================= */
+  
+  .footer__bottom {
+    width: min(1200px, 90%);
+  
+    margin: 65px auto 0;
+  
+    padding-top: 20px;
+  
+    display: flex;
+  
+    align-items: center;
+  
+    justify-content: space-between;
+  
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  
+  .footer__bottom p {
+    margin: 0;
+  
+    font-size: 0.68rem;
+  
+    color: rgba(255, 255, 255, 0.45);
+  }
+  
+  .footer__legal {
+    display: flex;
+  
+    gap: 25px;
+  }
+  
+  .footer__legal a {
+    font-size: 0.68rem;
+  
+    color: rgba(255, 255, 255, 0.45);
+  
+    transition: color 0.25s ease;
+  }
+  
+  .footer__legal a:hover {
+    color: white;
+  }
+  
+  
+  /* =========================================================
+     TABLET
+  ========================================================= */
+  
+  @media (max-width: 800px) {
+  
+    .footer {
+      padding-top: 60px;
+    }
+  
+    .footer__container {
+      grid-template-columns: 1fr;
+  
+      gap: 45px;
+    }
+  
+    .footer__links {
+      gap: 25px;
+    }
+  }
+  
+  
+  /* =========================================================
+     MOBILE
+  ========================================================= */
+  
+  @media (max-width: 600px) {
+  
+    .footer {
+      padding: 55px 0 22px;
+    }
+  
+    .footer__container {
+      width: calc(100% - 32px);
+  
+      gap: 40px;
+    }
+  
+    .footer__logo {
+      font-size: 2.2rem;
+    }
+  
+    .footer__tagline {
+      font-size: 1.05rem;
+    }
+  
+    .footer__links {
+      grid-template-columns: 1fr 1fr;
+  
+      gap: 35px 20px;
+    }
+  
+    .footer__column:last-child {
+      grid-column: 1 / -1;
+    }
+  
+    .footer__bottom {
+      width: calc(100% - 32px);
+  
+      margin-top: 45px;
+  
+      flex-direction: column;
+  
+      align-items: flex-start;
+  
+      gap: 15px;
+    }
+  
+    .footer__legal {
+      gap: 18px;
+    }
+  }
+  
+  
+  /* =========================================================
+     SMALL MOBILE
+  ========================================================= */
+  
+  @media (max-width: 420px) {
+  
+    .footer__container,
+    .footer__bottom {
+      width: calc(100% - 24px);
+    }
+  
+    .footer__links {
+      gap: 30px 15px;
+    }
+  
+    .footer__column a {
+      font-size: 0.74rem;
+    }
+  
+    .footer__legal {
+      gap: 14px;
+    }
+  
+    .footer__legal a {
+      font-size: 0.64rem;
+    }
+  }
