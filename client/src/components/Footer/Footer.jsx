@@ -44,19 +44,22 @@ function Footer() {
 
           <div className="footer__column">
             <h3>Customer Care</h3>
-
-            <a href="mailto:hello@ceresea.luxe">
-              Email Us
-            </a>
+            <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=ceresea.luxe11@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Email Us
+        </a>
           </div>
 
           <div className="footer__column">
             <h3>Follow</h3>
 
             <a
-              href="#"
+              href="https://www.instagram.com/ceresea.luxe/"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Instagram
             </a>
