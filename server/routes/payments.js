@@ -267,6 +267,106 @@ router.post(
 );
 
 // ---------------------------------------------
+// Reconcile Pending Payment
+// ---------------------------------------------
+
+router.post(
+  "/reconcile/:orderId",
+  protect,
+  async (req, res) => {
+    try {
+      const { orderId } = req.params;
+
+      const order = await Order.findOne({
+        _id: orderId,
+        user: req.user._id,
+      });
+
+      if (!order) {
+        return res.status(404).json({
+          message: "Order not found",
+        });
+      }
+
+      // Already paid
+      if (order.paymentStatus === "paid") {
+        return res.status(200).json({
+          message: "Payment already confirmed",
+          order,
+        });
+      }
+
+      // No Razorpay order means payment was never started
+      if (!order.razorpayOrderId) {
+        return res.status(200).json({
+          message: "Payment was not started",
+          order: {
+            id: order._id,
+            paymentStatus: order.paymentStatus,
+            orderStatus: order.orderStatus,
+          },
+        });
+      }
+
+      // Fetch payments belonging to this Razorpay order
+      const payments =
+        await razorpay.orders.fetchPayments(
+          order.razorpayOrderId
+        );
+
+      const paymentItems = payments?.items || [];
+
+      // Find a captured payment matching our order
+      const capturedPayment = paymentItems.find(
+        (payment) =>
+          payment.status === "captured" &&
+          payment.order_id === order.razorpayOrderId &&
+          payment.currency === "INR" &&
+          payment.amount === order.totalAmount * 100
+      );
+
+      // Payment is not captured yet
+      if (!capturedPayment) {
+        return res.status(200).json({
+          message: "Payment not confirmed yet",
+          order: {
+            id: order._id,
+            paymentStatus: order.paymentStatus,
+            orderStatus: order.orderStatus,
+          },
+        });
+      }
+
+      // Payment is captured — update our order
+      order.paymentStatus = "paid";
+      order.orderStatus = "confirmed";
+      order.razorpayPaymentId =
+        capturedPayment.id;
+
+      await order.save();
+
+      console.log(
+        `Order ${order._id} reconciled and marked as paid`
+      );
+
+      return res.status(200).json({
+        message: "Payment reconciled successfully",
+        order,
+      });
+    } catch (error) {
+      console.error(
+        "Payment reconciliation error:",
+        error
+      );
+
+      return res.status(500).json({
+        message: "Failed to reconcile payment",
+      });
+    }
+  }
+);
+
+// ---------------------------------------------
 // Razorpay Webhook
 // ---------------------------------------------
 

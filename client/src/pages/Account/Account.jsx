@@ -268,12 +268,8 @@ function Account() {
     if (order.paymentStatus === "failed") {
       return false;
     }
-
-    return [
-      "pending",
-      "confirmed",
-      "processing",
-    ].includes(order.orderStatus);
+  
+    return order.orderStatus === "confirmed";
   };
 
   // ==========================================

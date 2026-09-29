@@ -117,8 +117,7 @@ router.post("/", protect, async (req, res) => {
 
     if (!contact || !shippingAddress) {
       return res.status(400).json({
-        message:
-          "Contact and shipping address are required",
+        message: "Contact and shipping address are required",
       });
     }
 
@@ -135,10 +134,7 @@ router.post("/", protect, async (req, res) => {
 
       const quantity = Number(item.quantity);
 
-      if (
-        !Number.isInteger(quantity) ||
-        quantity < 1
-      ) {
+      if (!Number.isInteger(quantity) || quantity < 1) {
         throw new Error("Invalid quantity");
       }
 
@@ -191,8 +187,7 @@ router.post("/", protect, async (req, res) => {
       shippingAddress: {
         doorNumber: shippingAddress.doorNumber,
         street: shippingAddress.street,
-        landmark:
-          shippingAddress.landmark,
+        landmark: shippingAddress.landmark,
         city: shippingAddress.city,
         state: shippingAddress.state,
         pincode: shippingAddress.pincode,
@@ -238,24 +233,21 @@ router.post(
         });
       }
 
-      // Allow cancellation only before shipping
-      const cancellableStatuses = [
-        "pending",
-        "confirmed",
-        "processing",
-      ];
-
-      if (
-        !cancellableStatuses.includes(
-          order.orderStatus
-        )
-      ) {
+      // Customer can cancel ONLY confirmed orders.
+      if (order.orderStatus !== "confirmed") {
         return res.status(400).json({
           message: `Order cannot be cancelled because it is already ${order.orderStatus}`,
         });
       }
 
-      // If payment was successful, process refund
+      // Failed payment orders cannot be cancelled.
+      if (order.paymentStatus === "failed") {
+        return res.status(400).json({
+          message: "Failed payment orders cannot be cancelled",
+        });
+      }
+
+      // If payment was successful, process refund.
       if (
         order.paymentStatus === "paid" &&
         order.razorpayPaymentId
@@ -315,7 +307,7 @@ router.post(
       }
 
       // If payment was not successful,
-      // no refund is required
+      // no refund is required.
       order.orderStatus = "cancelled";
 
       await order.save();

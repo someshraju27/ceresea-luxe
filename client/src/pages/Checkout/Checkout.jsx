@@ -55,9 +55,9 @@ function Checkout() {
     setIsRecoveringPayment,
   ] = useState(false);
 
-  // Keep the latest clearCart function available
-  // without making the recovery effect rerun
-  // whenever the function reference changes.
+  // Keep latest clearCart function available
+  // without making recovery effect rerun when
+  // the function reference changes.
   const clearCartRef = useRef(clearCart);
 
   useEffect(() => {
@@ -121,83 +121,80 @@ function Checkout() {
   // =================================================
 
   useEffect(() => {
-    const fetchSavedAddresses =
-      async () => {
-        if (!isAuthenticated || !user) {
-          setSavedAddresses([]);
-          return;
+    const fetchSavedAddresses = async () => {
+      if (!isAuthenticated || !user) {
+        setSavedAddresses([]);
+        return;
+      }
+
+      const token =
+        localStorage.getItem(
+          "ceresea-token"
+        );
+
+      if (!token) {
+        return;
+      }
+
+      try {
+        setAddressesLoading(true);
+        setAddressError("");
+
+        const response = await fetch(
+          "/api/auth/addresses",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.message ||
+              "Failed to fetch saved addresses"
+          );
         }
 
-        const token =
-          localStorage.getItem(
-            "ceresea-token"
-          );
+        const addresses =
+          data.addresses || [];
 
-        if (!token) {
-          return;
-        }
+        setSavedAddresses(addresses);
 
-        try {
-          setAddressesLoading(true);
-          setAddressError("");
-
-          const response =
-            await fetch(
-              "/api/auth/addresses",
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-
-          const data =
-            await response.json();
-
-          if (!response.ok) {
-            throw new Error(
-              data.message ||
-                "Failed to fetch saved addresses"
-            );
-          }
-
-          const addresses =
-            data.addresses || [];
-
-          setSavedAddresses(addresses);
-
-          // Do NOT automatically select
-          // the first address.
-          if (addresses.length > 0) {
-            setSelectedAddressId("");
-            setShowNewAddressForm(false);
-          } else {
-            setShowNewAddressForm(true);
-          }
-        } catch (error) {
-          console.error(
-            "Fetch checkout addresses error:",
-            error
-          );
-
-          setAddressError(
-            error.message ||
-              "Failed to load saved addresses"
-          );
-
-          // Allow entering a new address
-          // if saved addresses fail to load.
+        // Do NOT automatically select
+        // the first address.
+        if (addresses.length > 0) {
+          setSelectedAddressId("");
+          setShowNewAddressForm(false);
+        } else {
           setShowNewAddressForm(true);
-        } finally {
-          setAddressesLoading(false);
         }
-      };
+      } catch (error) {
+        console.error(
+          "Fetch checkout addresses error:",
+          error
+        );
+
+        setAddressError(
+          error.message ||
+            "Failed to load saved addresses"
+        );
+
+        // Allow entering a new address
+        // if saved addresses fail to load.
+        setShowNewAddressForm(true);
+      } finally {
+        setAddressesLoading(false);
+      }
+    };
 
     fetchSavedAddresses();
   }, [isAuthenticated, user]);
 
   // =================================================
-  // PAYMENT RECOVERY
+  // PAYMENT RECOVERY / RECONCILIATION
   //
   // Handles:
   //
@@ -209,9 +206,15 @@ function Checkout() {
   //       ↓
   // Checkout reloads
   //       ↓
-  // Backend order is checked
+  // Check our order
   //       ↓
-  // If paid → clear cart → confirmation
+  // If already paid → confirmation
+  //       ↓
+  // If still pending → ask Razorpay
+  //       ↓
+  // If captured → confirm order
+  //       ↓
+  // If not captured → keep checking
   // =================================================
 
   useEffect(() => {
@@ -231,156 +234,247 @@ function Checkout() {
     let cancelled = false;
     let timeoutId = null;
 
-    const recoverPayment =
-      async () => {
-        setIsRecoveringPayment(true);
+    const recoverPayment = async () => {
+      setIsRecoveringPayment(true);
 
-        const maxAttempts = 6;
-        const delay = 1500;
+      const maxAttempts = 6;
+      const delay = 1500;
 
-        for (
-          let attempt = 0;
-          attempt < maxAttempts;
-          attempt += 1
-        ) {
-          if (cancelled) {
-            return;
-          }
+      for (
+        let attempt = 0;
+        attempt < maxAttempts;
+        attempt += 1
+      ) {
+        if (cancelled) {
+          return;
+        }
 
-          try {
-            const token =
-              localStorage.getItem(
-                "ceresea-token"
-              );
-
-            if (!token) {
-              break;
-            }
-
-            const response =
-              await fetch(
-                `/api/orders/${pendingOrderId}`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-                }
-              );
-
-            const data =
-              await response.json();
-
-            if (
-              response.ok &&
-              data.order
-            ) {
-              const order =
-                data.order;
-
-              // ------------------------------------------
-              // PAYMENT SUCCESSFULLY CONFIRMED
-              // ------------------------------------------
-
-              if (
-                order.paymentStatus ===
-                  "paid" &&
-                order.orderStatus ===
-                  "confirmed"
-              ) {
-                localStorage.setItem(
-                  "ceresea-last-order-id",
-                  order._id ||
-                    order.id
-                );
-
-                localStorage.removeItem(
-                  "ceresea-pending-order-id"
-                );
-
-                localStorage.removeItem(
-                  "ceresea-razorpay-order-id"
-                );
-
-                clearCartRef.current();
-
-                if (!cancelled) {
-                  setIsRecoveringPayment(
-                    false
-                  );
-
-                  navigate(
-                    "/order-confirmation",
-                    {
-                      state: {
-                        order,
-                      },
-                      replace: true,
-                    }
-                  );
-                }
-
-                return;
-              }
-
-              // ------------------------------------------
-              // PAYMENT FAILED
-              // ------------------------------------------
-
-              if (
-                order.paymentStatus ===
-                "failed"
-              ) {
-                localStorage.removeItem(
-                  "ceresea-pending-order-id"
-                );
-
-                localStorage.removeItem(
-                  "ceresea-razorpay-order-id"
-                );
-
-                if (!cancelled) {
-                  setIsRecoveringPayment(
-                    false
-                  );
-
-                  setIsProcessing(false);
-                }
-
-                return;
-              }
-            }
-          } catch (error) {
-            console.error(
-              "Payment recovery error:",
-              error
+        try {
+          const token =
+            localStorage.getItem(
+              "ceresea-token"
             );
+
+          if (!token) {
+            break;
           }
 
-          // ------------------------------------------
-          // Wait before checking again
-          // ------------------------------------------
+          // -----------------------------------------
+          // STEP 1:
+          // Get our current order status
+          // -----------------------------------------
+
+          const orderResponse =
+            await fetch(
+              `/api/orders/${pendingOrderId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+          const orderData =
+            await orderResponse.json();
 
           if (
-            attempt <
-              maxAttempts - 1 &&
-            !cancelled
+            orderResponse.ok &&
+            orderData.order
           ) {
-            await new Promise(
-              (resolve) => {
-                timeoutId = setTimeout(
-                  resolve,
-                  delay
+            const order =
+              orderData.order;
+
+            // -----------------------------------------
+            // PAYMENT ALREADY CONFIRMED
+            // -----------------------------------------
+
+            if (
+              order.paymentStatus ===
+                "paid" &&
+              order.orderStatus ===
+                "confirmed"
+            ) {
+              localStorage.setItem(
+                "ceresea-last-order-id",
+                order._id ||
+                  order.id
+              );
+
+              localStorage.removeItem(
+                "ceresea-pending-order-id"
+              );
+
+              localStorage.removeItem(
+                "ceresea-razorpay-order-id"
+              );
+
+              clearCartRef.current();
+
+              if (!cancelled) {
+                setIsRecoveringPayment(
+                  false
+                );
+
+                navigate(
+                  "/order-confirmation",
+                  {
+                    state: {
+                      order,
+                    },
+                    replace: true,
+                  }
                 );
               }
-            );
+
+              return;
+            }
+
+            // -----------------------------------------
+            // PAYMENT FAILED
+            // -----------------------------------------
+
+            if (
+              order.paymentStatus ===
+              "failed"
+            ) {
+              localStorage.removeItem(
+                "ceresea-pending-order-id"
+              );
+
+              localStorage.removeItem(
+                "ceresea-razorpay-order-id"
+              );
+
+              if (!cancelled) {
+                setIsRecoveringPayment(
+                  false
+                );
+
+                setIsProcessing(false);
+              }
+
+              return;
+            }
+
+            // -----------------------------------------
+            // PAYMENT STILL PENDING
+            //
+            // Ask Razorpay directly.
+            // -----------------------------------------
+
+            if (
+              order.paymentStatus ===
+              "pending"
+            ) {
+              try {
+                const reconcileResponse =
+                  await fetch(
+                    `/api/payments/reconcile/${pendingOrderId}`,
+                    {
+                      method: "POST",
+
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
+                    }
+                  );
+
+                const reconcileData =
+                  await reconcileResponse.json();
+
+                if (
+                  reconcileResponse.ok &&
+                  reconcileData.order
+                ) {
+                  const reconciledOrder =
+                    reconcileData.order;
+
+                  // -------------------------------------
+                  // RAZORPAY CONFIRMED PAYMENT
+                  // -------------------------------------
+
+                  if (
+                    reconciledOrder.paymentStatus ===
+                      "paid" &&
+                    reconciledOrder.orderStatus ===
+                      "confirmed"
+                  ) {
+                    localStorage.setItem(
+                      "ceresea-last-order-id",
+                      reconciledOrder._id ||
+                        reconciledOrder.id
+                    );
+
+                    localStorage.removeItem(
+                      "ceresea-pending-order-id"
+                    );
+
+                    localStorage.removeItem(
+                      "ceresea-razorpay-order-id"
+                    );
+
+                    clearCartRef.current();
+
+                    if (!cancelled) {
+                      setIsRecoveringPayment(
+                        false
+                      );
+
+                      navigate(
+                        "/order-confirmation",
+                        {
+                          state: {
+                            order:
+                              reconciledOrder,
+                          },
+                          replace: true,
+                        }
+                      );
+                    }
+
+                    return;
+                  }
+                }
+              } catch (reconcileError) {
+                console.error(
+                  "Payment reconciliation error:",
+                  reconcileError
+                );
+              }
+            }
           }
+        } catch (error) {
+          console.error(
+            "Payment recovery error:",
+            error
+          );
         }
 
-        if (!cancelled) {
-          setIsRecoveringPayment(false);
-          setIsProcessing(false);
+        // -------------------------------------------
+        // WAIT BEFORE TRYING AGAIN
+        // -------------------------------------------
+
+        if (
+          attempt <
+            maxAttempts - 1 &&
+          !cancelled
+        ) {
+          await new Promise(
+            (resolve) => {
+              timeoutId = setTimeout(
+                resolve,
+                delay
+              );
+            }
+          );
         }
-      };
+      }
+
+      if (!cancelled) {
+        setIsRecoveringPayment(false);
+        setIsProcessing(false);
+      }
+    };
 
     recoverPayment();
 
@@ -733,11 +827,7 @@ function Checkout() {
 
         // =================================================
         // IMPORTANT:
-        // Store pending order BEFORE opening Razorpay.
-        //
-        // If the customer presses F5 while Razorpay
-        // is displaying "Payment Successful", checkout
-        // can recover this order after reload.
+        // Store recovery data BEFORE opening Razorpay.
         // =================================================
 
         localStorage.setItem(
@@ -806,7 +896,7 @@ function Checkout() {
           },
 
           // =================================================
-          // 5. PAYMENT SUCCESSFUL ON RAZORPAY
+          // PAYMENT SUCCESSFUL ON RAZORPAY
           // =================================================
 
           handler: async function (
@@ -830,7 +920,7 @@ function Checkout() {
               }
 
               // =================================================
-              // 6. VERIFY PAYMENT ON BACKEND
+              // VERIFY PAYMENT ON BACKEND
               // =================================================
 
               const verificationResponse =
@@ -880,8 +970,6 @@ function Checkout() {
                 const verifiedOrder =
                   verificationData.order;
 
-                // Remember the successfully
-                // completed order.
                 localStorage.setItem(
                   "ceresea-last-order-id",
                   verifiedOrder.id ||
@@ -889,8 +977,6 @@ function Checkout() {
                     orderData.order._id
                 );
 
-                // Remove payment recovery data
-                // only after payment is confirmed.
                 localStorage.removeItem(
                   "ceresea-pending-order-id"
                 );
@@ -899,8 +985,6 @@ function Checkout() {
                   "ceresea-razorpay-order-id"
                 );
 
-                // Clear cart only after
-                // successful verification.
                 clearCartRef.current();
 
                 navigate(
@@ -910,7 +994,6 @@ function Checkout() {
                       order:
                         verifiedOrder,
                     },
-
                     replace: true,
                   }
                 );
@@ -918,39 +1001,27 @@ function Checkout() {
                 return;
               }
 
-              // =================================================
-              // VERIFICATION DID NOT COMPLETE
-              //
-              // IMPORTANT:
-              // Do NOT clear the pending order ID.
-              //
-              // The webhook/recovery mechanism can still
-              // confirm the payment.
-              // =================================================
-
+              // Verification failed, but DON'T
+              // clear recovery data.
               console.error(
                 "Payment verification failed:",
                 verificationData
               );
 
               setIsProcessing(false);
-
             } catch (error) {
               console.error(
                 "Payment verification error:",
                 error
               );
 
-              // Do NOT remove the pending order ID.
-              // The recovery mechanism can still
-              // recover the payment.
-
+              // Keep pending recovery data.
               setIsProcessing(false);
             }
           },
 
           // =================================================
-          // 7. RAZORPAY POPUP CLOSED
+          // RAZORPAY POPUP CLOSED
           // =================================================
 
           modal: {
@@ -960,15 +1031,13 @@ function Checkout() {
                   "Razorpay Checkout closed."
                 );
 
-                setIsProcessing(
-                  false
-                );
+                setIsProcessing(false);
               },
           },
         };
 
         // =================================================
-        // 8. OPEN RAZORPAY
+        // OPEN RAZORPAY
         // =================================================
 
         const razorpay =
@@ -977,7 +1046,6 @@ function Checkout() {
           );
 
         razorpay.open();
-
       } catch (error) {
         console.error(
           "Payment initialization error:",
@@ -1088,7 +1156,6 @@ function Checkout() {
                   data.user,
                   data.token
                 );
-
               } catch (error) {
                 console.error(
                   "Checkout login error:",
@@ -1126,9 +1193,7 @@ function Checkout() {
 
       <div className="checkout-page__container">
 
-        {/* =================================================
-            HEADER
-        ================================================= */}
+        {/* HEADER */}
 
         <header className="checkout-page__header">
 
@@ -1144,15 +1209,11 @@ function Checkout() {
 
         <div className="checkout-page__layout">
 
-          {/* =================================================
-              CUSTOMER DETAILS
-          ================================================= */}
+          {/* CUSTOMER DETAILS */}
 
           <section className="checkout-page__details">
 
-            {/* =================================================
-                CONTACT INFORMATION
-            ================================================= */}
+            {/* CONTACT INFORMATION */}
 
             <div className="checkout-section">
 
@@ -1238,9 +1299,7 @@ function Checkout() {
 
             </div>
 
-            {/* =================================================
-                SAVED ADDRESSES
-            ================================================= */}
+            {/* SAVED ADDRESSES */}
 
             <div className="checkout-section checkout-section--saved-addresses">
 
@@ -1374,9 +1433,7 @@ function Checkout() {
 
             </div>
 
-            {/* =================================================
-                NEW / SELECTED DELIVERY ADDRESS
-            ================================================= */}
+            {/* NEW / SELECTED DELIVERY ADDRESS */}
 
             {(showNewAddressForm ||
               savedAddresses.length ===
@@ -1621,9 +1678,7 @@ function Checkout() {
               </div>
             )}
 
-            {/* =================================================
-                PAYMENT
-            ================================================= */}
+            {/* PAYMENT */}
 
             <div className="checkout-section">
 
@@ -1666,9 +1721,7 @@ function Checkout() {
 
           </section>
 
-          {/* =================================================
-              ORDER SUMMARY
-          ================================================= */}
+          {/* ORDER SUMMARY */}
 
           <aside className="checkout-page__summary">
 
