@@ -33,6 +33,11 @@ function ProductPage() {
     setQuantity((current) => current + 1);
   };
 
+  const selectShade = (index) => {
+    setSelectedIndex(index);
+    setQuantity(1);
+  };
+
   const handleAddToBag = () => {
     addToCart(product, selectedShade, quantity);
   };
@@ -45,6 +50,84 @@ function ProductPage() {
     );
   };
 
+  /* =========================================================
+     MOBILE SWIPE
+  ========================================================= */
+
+  const handleTouchStart = (event) => {
+    const touch = event.touches[0];
+    event.currentTarget.dataset.touchStartX = touch.clientX;
+  };
+
+  const handleTouchEnd = (event) => {
+    const touchStartX = Number(
+      event.currentTarget.dataset.touchStartX
+    );
+
+    if (!touchStartX) return;
+
+    const touchEndX = event.changedTouches[0].clientX;
+    const difference = touchStartX - touchEndX;
+
+    const swipeThreshold = 50;
+
+    if (Math.abs(difference) < swipeThreshold) {
+      return;
+    }
+
+    if (difference > 0) {
+      // Swipe left → next shade
+      setSelectedIndex((current) =>
+        current === product.shades.length - 1
+          ? 0
+          : current + 1
+      );
+    } else {
+      // Swipe right → previous shade
+      setSelectedIndex((current) =>
+        current === 0
+          ? product.shades.length - 1
+          : current - 1
+      );
+    }
+
+    setQuantity(1);
+
+    delete event.currentTarget.dataset.touchStartX;
+  };
+
+  const shadeSelector = (
+    <div className="product-page__shade">
+      <div className="product-page__shade-header">
+        <span>Shade</span>
+        <strong>{selectedShade.name}</strong>
+      </div>
+
+      <div className="product-page__swatches">
+        {product.shades.map((shade, index) => (
+          <button
+            key={shade.id}
+            type="button"
+            className={`product-page__swatch ${
+              selectedIndex === index
+                ? "product-page__swatch--active"
+                : ""
+            }`}
+            onClick={() => selectShade(index)}
+            aria-label={`Select ${shade.name}`}
+            aria-pressed={selectedIndex === index}
+          >
+            <span
+              style={{
+                backgroundColor: shade.color,
+              }}
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <main
       className="product-page"
@@ -52,18 +135,34 @@ function ProductPage() {
     >
       <div className="product-page__container">
 
-        {/* Product Visual */}
-        <div className="product-page__visual">
-          <div className="product-page__glow"></div>
+        {/* =====================================================
+            PRODUCT VISUAL
+        ===================================================== */}
+
+        <div
+          className="product-page__visual"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div className="product-page__glow" />
 
           <img
             src={selectedShade.image}
             alt={`${product.name} ${selectedShade.name} lip balm`}
             className="product-page__image"
+            draggable="false"
           />
+
+          {/* Mobile shade selector */}
+          <div className="product-page__mobile-shade">
+            {shadeSelector}
+          </div>
         </div>
 
-        {/* Product Information */}
+        {/* =====================================================
+            PRODUCT INFORMATION
+        ===================================================== */}
+
         <div className="product-page__content">
 
           <p className="product-page__eyebrow">
@@ -79,43 +178,15 @@ function ProductPage() {
             ₹{product.price}
           </p>
 
-          {/* Shade */}
-          <div className="product-page__shade">
-
-            <div className="product-page__shade-header">
-              <span>Shade</span>
-              <strong>{selectedShade.name}</strong>
-            </div>
-
-            <div className="product-page__swatches">
-              {product.shades.map((shade, index) => (
-                <button
-                  key={shade.id}
-                  type="button"
-                  className={`product-page__swatch ${
-                    selectedIndex === index
-                      ? "product-page__swatch--active"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    setSelectedIndex(index);
-                    setQuantity(1);
-                  }}
-                  aria-label={`Select ${shade.name}`}
-                  aria-pressed={selectedIndex === index}
-                >
-                  <span
-                    style={{
-                      backgroundColor: shade.color,
-                    }}
-                  ></span>
-                </button>
-              ))}
-            </div>
-
+          {/* Desktop shade selector */}
+          <div className="product-page__desktop-shade">
+            {shadeSelector}
           </div>
 
-          {/* Purchase */}
+          {/* =================================================
+              PURCHASE
+          ================================================= */}
+
           <div className="product-page__purchase">
 
             <div className="product-page__quantity">
@@ -125,7 +196,10 @@ function ProductPage() {
                 onClick={() => {
                   if (isInBag) {
                     handleUpdateBagQuantity(
-                      Math.max(1, cartItem.quantity - 1)
+                      Math.max(
+                        1,
+                        cartItem.quantity - 1
+                      )
                     );
                   } else {
                     decreaseQuantity();
@@ -137,7 +211,9 @@ function ProductPage() {
               </button>
 
               <span>
-                {isInBag ? cartItem.quantity : quantity}
+                {isInBag
+                  ? cartItem.quantity
+                  : quantity}
               </span>
 
               <button
@@ -168,28 +244,38 @@ function ProductPage() {
               onClick={handleAddToBag}
               disabled={isInBag}
             >
-              {isInBag ? "Added to Bag" : "Add to Bag"}
+              {isInBag
+                ? "Added to Bag"
+                : "Add to Bag"}
             </button>
 
           </div>
 
-          {/* View Bag */}
-          {hasItemsInBag && (
-                <Link
-                    to="/bag"
-                    className="product-page__view-bag"
-                >
-                    View Bag
-                    <span>→</span>
-                </Link>
-                )}
+          {/* =================================================
+              VIEW BAG
+          ================================================= */}
 
-          {/* Product Details */}
+          {hasItemsInBag && (
+            <Link
+              to="/bag"
+              className="product-page__view-bag"
+            >
+              View Bag
+              <span>→</span>
+            </Link>
+          )}
+
+          {/* =================================================
+              PRODUCT DETAILS
+          ================================================= */}
+
           <div className="product-page__details">
 
             <div className="product-page__detail">
               <span>Net quantity</span>
-              <strong>{product.netQuantity}</strong>
+              <strong>
+                {product.netQuantity}
+              </strong>
             </div>
 
             <div className="product-page__detail">

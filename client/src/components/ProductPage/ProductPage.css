@@ -3,929 +3,1085 @@
 ========================================================= */
 
 .product-page {
-    min-height: calc(100vh - 78px);
-    padding: 55px 0;
-    background: var(--color-ivory);
-    overflow: hidden;
+  min-height: calc(100vh - 78px);
+  padding: 55px 0;
+  background: var(--color-ivory);
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.product-page__container {
+  width: min(1200px, 90%);
+  min-height: calc(100vh - 188px);
+
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  align-items: center;
+
+  gap: 75px;
+}
+
+
+/* =========================================================
+   PRODUCT VISUAL
+========================================================= */
+
+.product-page__visual {
+  position: relative;
+
+  height: 550px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   GLOW
+========================================================= */
+
+.product-page__glow {
+  position: absolute;
+
+  width: 455px;
+  height: 455px;
+
+  border-radius: 50%;
+
+  background: var(--shade-color);
+
+  opacity: 0.14;
+
+  filter: blur(32px);
+
+  transition:
+    background-color 0.5s ease,
+    opacity 0.5s ease;
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
+.product-page__image {
+  position: relative;
+  z-index: 1;
+
+  width: 350px;
+  height: 500px;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 175px 175px 20px 20px;
+
+  box-shadow: var(--shadow-soft);
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s ease;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.product-page__content {
+  width: 100%;
+  max-width: 540px;
+}
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.product-page__eyebrow {
+  margin: 0 0 12px;
+
+  font-size: 0.68rem;
+  font-weight: 600;
+
+  letter-spacing: 0.25em;
+
+  color: var(--color-rose);
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.product-page__title {
+  margin: 0;
+
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: clamp(3.8rem, 5vw, 5.3rem);
+
+  font-weight: 500;
+
+  line-height: 0.88;
+
+  letter-spacing: -0.035em;
+
+  color: var(--color-deep-rose);
+}
+
+.product-page__title span {
+  display: block;
+
+  color: var(--color-text);
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+.product-page__price {
+  margin: 21px 0 0;
+
+  font-family: "Cormorant Garamond", serif;
+
+  font-size: 1.85rem;
+
+  color: var(--color-deep-rose);
+}
+
+
+/* =========================================================
+   SHADE
+========================================================= */
+
+.product-page__shade {
+  margin-top: 28px;
+}
+
+.product-page__shade-header {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 0.76rem;
+}
+
+.product-page__shade-header span {
+  color: var(--color-text-muted);
+}
+
+.product-page__shade-header strong {
+  font-weight: 500;
+
+  color: var(--color-text);
+}
+
+
+/* =========================================================
+   SWATCHES
+========================================================= */
+
+.product-page__swatches {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  margin-top: 12px;
+}
+
+.product-page__swatch {
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid transparent;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.product-page__swatch:hover {
+  transform: scale(1.08);
+}
+
+.product-page__swatch span {
+  width: 23px;
+  height: 23px;
+
+  display: block;
+
+  border-radius: 50%;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.55),
+    0 2px 7px rgba(0, 0, 0, 0.12);
+}
+
+.product-page__swatch--active {
+  border-color: var(--shade-color);
+}
+
+
+/* =========================================================
+   MOBILE / DESKTOP SHADE VISIBILITY
+========================================================= */
+
+.product-page__mobile-shade {
+  display: none;
+}
+
+.product-page__desktop-shade {
+  display: block;
+}
+
+
+/* =========================================================
+   PURCHASE
+========================================================= */
+
+.product-page__purchase {
+  display: flex;
+
+  gap: 12px;
+
+  margin-top: 28px;
+}
+
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
+.product-page__quantity {
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+
+  border: 1px solid var(--color-border);
+
+  border-radius: 50px;
+
+  background: var(--color-cream);
+}
+
+.product-page__quantity button {
+  width: 40px;
+  height: 100%;
+
+  border: none;
+
+  background: transparent;
+
+  color: var(--color-text);
+
+  font-size: 1rem;
+
+  cursor: pointer;
+}
+
+.product-page__quantity span {
+  min-width: 24px;
+
+  text-align: center;
+
+  font-size: 0.88rem;
+
+  color: var(--color-text);
+}
+
+
+/* =========================================================
+   ADD TO BAG
+========================================================= */
+
+.product-page__add {
+  flex: 1;
+
+  height: 50px;
+
+  border: none;
+
+  border-radius: 50px;
+
+  background: var(--color-deep-rose);
+
+  color: white;
+
+  font-size: 0.76rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.product-page__add:hover {
+  transform: translateY(-2px);
+
+  background: var(--color-rose);
+}
+
+
+/* =========================================================
+   ADDED TO BAG
+========================================================= */
+
+.product-page__add--added {
+  background: var(--color-rose);
+
+  cursor: default;
+}
+
+.product-page__add--added:hover {
+  transform: none;
+}
+
+
+/* =========================================================
+   VIEW BAG
+========================================================= */
+
+.product-page__view-bag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 12px;
+
+  color: var(--color-deep-rose);
+
+  font-size: 0.72rem;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+
+  text-decoration: none;
+
+  transition: gap 0.25s ease;
+}
+
+.product-page__view-bag span {
+  font-size: 0.9rem;
+}
+
+.product-page__view-bag:hover {
+  gap: 12px;
+}
+
+
+/* =========================================================
+   PRODUCT DETAILS
+========================================================= */
+
+.product-page__details {
+  margin-top: 27px;
+
+  padding-top: 17px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  border-top: 1px solid var(--color-border);
+}
+
+.product-page__detail {
+  display: flex;
+  align-items: baseline;
+
+  gap: 12px;
+
+  font-size: 0.72rem;
+
+  line-height: 1.45;
+}
+
+.product-page__detail span {
+  min-width: 92px;
+
+  color: var(--color-text-muted);
+}
+
+.product-page__detail strong {
+  font-weight: 400;
+
+  color: var(--color-text);
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.product-page__toast {
+  position: fixed;
+
+  right: 28px;
+  bottom: 28px;
+
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 16px 18px;
+
+  background: var(--color-cream);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: 14px;
+
+  box-shadow: var(--shadow-soft);
+
+  animation: productToastIn 0.3s ease;
+}
+
+.product-page__toast > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.product-page__toast strong {
+  font-size: 0.78rem;
+
+  font-weight: 600;
+
+  color: var(--color-text);
+}
+
+.product-page__toast span {
+  font-size: 0.68rem;
+
+  color: var(--color-text-muted);
+}
+
+.product-page__toast-link {
+  padding: 9px 15px;
+
+  border-radius: 50px;
+
+  background: var(--color-deep-rose);
+
+  color: white;
+
+  font-size: 0.66rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0.06em;
+
+  text-decoration: none;
+
+  text-transform: uppercase;
+
+  transition: background-color 0.25s ease;
+}
+
+.product-page__toast-link:hover {
+  background: var(--color-rose);
+}
+
+.product-page__toast-close {
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: var(--color-text-muted);
+
+  font-size: 1.2rem;
+
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+@keyframes productToastIn {
+  from {
+    opacity: 0;
+
+    transform: translateY(12px);
   }
-  
-  
-  /* =========================================================
-     CONTAINER
-  ========================================================= */
-  
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .product-page {
+    padding: 45px 0;
+  }
+
   .product-page__container {
-    width: min(1200px, 90%);
-    min-height: calc(100vh - 188px);
-  
-    margin: 0 auto;
-  
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  
-    align-items: center;
-  
-    gap: 75px;
+    gap: 50px;
   }
-  
-  
-  /* =========================================================
-     PRODUCT VISUAL
-  ========================================================= */
-  
+
   .product-page__visual {
-    position: relative;
-  
-    height: 550px;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  
-  /* =========================================================
-     GLOW
-  ========================================================= */
-  
-  .product-page__glow {
-    position: absolute;
-  
-    width: 455px;
-    height: 455px;
-  
-    border-radius: 50%;
-  
-    background: var(--shade-color);
-  
-    opacity: 0.14;
-  
-    filter: blur(32px);
-  
-    transition:
-      background-color 0.5s ease,
-      opacity 0.5s ease;
-  }
-  
-  
-  /* =========================================================
-     PRODUCT IMAGE
-  ========================================================= */
-  
-  .product-page__image {
-    position: relative;
-    z-index: 1;
-  
-    width: 350px;
     height: 500px;
-  
-    display: block;
-  
-    object-fit: cover;
-  
-    border-radius: 175px 175px 20px 20px;
-  
-    box-shadow: var(--shadow-soft);
-  
-    transition:
-      opacity 0.3s ease,
-      transform 0.4s ease;
   }
-  
-  
-  /* =========================================================
-     CONTENT
-  ========================================================= */
-  
-  .product-page__content {
-    width: 100%;
-    max-width: 540px;
+
+  .product-page__image {
+    width: 300px;
+    height: 440px;
+
+    border-radius: 150px 150px 20px 20px;
   }
-  
-  
-  /* =========================================================
-     EYEBROW
-  ========================================================= */
-  
-  .product-page__eyebrow {
-    margin: 0 0 12px;
-  
-    font-size: 0.68rem;
-    font-weight: 600;
-  
-    letter-spacing: 0.25em;
-  
-    color: var(--color-rose);
+
+  .product-page__glow {
+    width: 390px;
+    height: 390px;
   }
-  
-  
-  /* =========================================================
-     TITLE
-  ========================================================= */
-  
+
   .product-page__title {
-    margin: 0;
-  
-    font-family: "Cormorant Garamond", serif;
-  
-    font-size: clamp(3.8rem, 5vw, 5.3rem);
-  
-    font-weight: 500;
-  
-    line-height: 0.88;
-  
-    letter-spacing: -0.035em;
-  
-    color: var(--color-deep-rose);
+    font-size: clamp(3.4rem, 5.5vw, 4.7rem);
   }
-  
-  .product-page__title span {
-    display: block;
-  
-    color: var(--color-text);
-  }
-  
-  
-  /* =========================================================
-     PRICE
-  ========================================================= */
-  
-  .product-page__price {
-    margin: 21px 0 0;
-  
-    font-family: "Cormorant Garamond", serif;
-  
-    font-size: 1.85rem;
-  
-    color: var(--color-deep-rose);
-  }
-  
-  
-  /* =========================================================
-     SHADE
-  ========================================================= */
-  
-  .product-page__shade {
-    margin-top: 28px;
-  }
-  
-  .product-page__shade-header {
-    display: flex;
-    align-items: center;
-  
-    gap: 8px;
-  
-    font-size: 0.76rem;
-  }
-  
-  .product-page__shade-header span {
-    color: var(--color-text-muted);
-  }
-  
-  .product-page__shade-header strong {
-    font-weight: 500;
-  
-    color: var(--color-text);
-  }
-  
-  
-  /* =========================================================
-     SWATCHES
-  ========================================================= */
-  
-  .product-page__swatches {
-    display: flex;
-    align-items: center;
-  
-    gap: 11px;
-  
-    margin-top: 12px;
-  }
-  
-  .product-page__swatch {
-    width: 32px;
-    height: 32px;
-  
-    padding: 0;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    border: 2px solid transparent;
-  
-    border-radius: 50%;
-  
-    background: transparent;
-  
-    cursor: pointer;
-  
-    transition:
-      transform 0.25s ease,
-      border-color 0.25s ease;
-  }
-  
-  .product-page__swatch:hover {
-    transform: scale(1.08);
-  }
-  
-  .product-page__swatch span {
-    width: 23px;
-    height: 23px;
-  
-    display: block;
-  
-    border-radius: 50%;
-  
-    box-shadow:
-      inset 0 0 0 2px rgba(255, 255, 255, 0.55),
-      0 2px 7px rgba(0, 0, 0, 0.12);
-  }
-  
-  .product-page__swatch--active {
-    border-color: var(--shade-color);
-  }
-  
-  
-  /* =========================================================
-     PURCHASE
-  ========================================================= */
-  
-  .product-page__purchase {
-    display: flex;
-  
-    gap: 12px;
-  
-    margin-top: 28px;
-  }
-  
-  
-  /* =========================================================
-     QUANTITY
-  ========================================================= */
-  
-  .product-page__quantity {
-    height: 50px;
-  
-    display: flex;
-    align-items: center;
-  
-    border: 1px solid var(--color-border);
-  
-    border-radius: 50px;
-  
-    background: var(--color-cream);
-  }
-  
-  .product-page__quantity button {
-    width: 40px;
-    height: 100%;
-  
-    border: none;
-  
-    background: transparent;
-  
-    color: var(--color-text);
-  
-    font-size: 1rem;
-  
-    cursor: pointer;
-  }
-  
-  .product-page__quantity span {
-    min-width: 24px;
-  
-    text-align: center;
-  
-    font-size: 0.88rem;
-  
-    color: var(--color-text);
-  }
-  
-  
-  /* =========================================================
-     ADD TO BAG
-  ========================================================= */
-  
-  .product-page__add {
-    flex: 1;
-  
-    height: 50px;
-  
-    border: none;
-  
-    border-radius: 50px;
-  
-    background: var(--color-deep-rose);
-  
-    color: white;
-  
-    font-size: 0.76rem;
-  
-    font-weight: 600;
-  
-    letter-spacing: 0.08em;
-  
-    text-transform: uppercase;
-  
-    cursor: pointer;
-  
-    transition:
-      transform 0.3s ease,
-      background-color 0.3s ease;
-  }
-  
-  .product-page__add:hover {
-    transform: translateY(-2px);
-  
-    background: var(--color-rose);
-  }
-  
-  
-  /* =========================================================
-     DETAILS
-  ========================================================= */
-  
-  .product-page__details {
-    margin-top: 27px;
-  
-    padding-top: 17px;
-  
-    display: flex;
-    flex-direction: column;
-  
-    gap: 9px;
-  
-    border-top: 1px solid var(--color-border);
-  }
-  
-  .product-page__detail {
-    display: flex;
-    align-items: baseline;
-  
-    gap: 12px;
-  
-    font-size: 0.72rem;
-  
-    line-height: 1.45;
-  }
-  
-  .product-page__detail span {
-    min-width: 92px;
-  
-    color: var(--color-text-muted);
-  }
-  
-  .product-page__detail strong {
-    font-weight: 400;
-  
-    color: var(--color-text);
-  }
-  
-  .product-page__toast {
-    position: fixed;
-    right: 28px;
-    bottom: 28px;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    padding: 16px 18px;
-    background: var(--color-cream);
-    border: 1px solid var(--color-border);
-    border-radius: 14px;
-    box-shadow: var(--shadow-soft);
-    animation: productToastIn 0.3s ease;
-  }
-  
-  .product-page__toast > div {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-  
-  .product-page__toast strong {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--color-text);
-  }
-  
-  .product-page__toast span {
-    font-size: 0.68rem;
-    color: var(--color-text-muted);
-  }
-  
-  .product-page__toast-link {
-    padding: 9px 15px;
-    border-radius: 50px;
-    background: var(--color-deep-rose);
-    color: white;
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: background-color 0.25s ease;
-  }
-  
-  .product-page__toast-link:hover {
-    background: var(--color-rose);
-  }
-  
-  .product-page__toast-close {
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: var(--color-text-muted);
-    font-size: 1.2rem;
-    line-height: 1;
-    cursor: pointer;
-  }
-  
-  @keyframes productToastIn {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-  
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+}
 
-  .product-page__add--added {
-    background: var(--color-rose);
-    cursor: default;
-  }
-  
-  .product-page__add--added:hover {
-    transform: none;
-  }
-  
-  .product-page__view-bag {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 12px;
-    color: var(--color-deep-rose);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: gap 0.25s ease;
-  }
-  
-  .product-page__view-bag span {
-    font-size: 0.9rem;
-  }
-  
-  .product-page__view-bag:hover {
-    gap: 12px;
-  }
 
-  /* =========================================================
-     TABLET
-  ========================================================= */
-  
-  @media (max-width: 1000px) {
-  
-    .product-page {
-      padding: 45px 0;
-    }
-  
-    .product-page__container {
-      gap: 50px;
-    }
-  
-    .product-page__visual {
-      height: 500px;
-    }
-  
-    .product-page__image {
-      width: 300px;
-      height: 440px;
-  
-      border-radius: 150px 150px 20px 20px;
-    }
-  
-    .product-page__glow {
-      width: 390px;
-      height: 390px;
-    }
-  
-    .product-page__title {
-      font-size: clamp(3.4rem, 5.5vw, 4.7rem);
-    }
-  }
-  
-  
-  /* =========================================================
-     MOBILE
-  ========================================================= */
-  /* =========================================================
+/* =========================================================
    MOBILE
 ========================================================= */
 
 @media (max-width: 768px) {
 
-    .product-page {
-      min-height: auto;
-  
-      padding: 25px 0 45px;
-  
-      overflow: hidden;
-    }
-  
-  
-    /* =======================================================
-       CONTAINER
-    ======================================================= */
-  
-    .product-page__container {
-      width: calc(100% - 32px);
-  
-      min-height: auto;
-  
-      display: flex;
-      flex-direction: column;
-  
-      gap: 0;
-    }
-  
-  
-    /* =======================================================
-       PRODUCT VISUAL
-    ======================================================= */
-  
-    .product-page__visual {
-      width: 100%;
-  
-      height: 315px;
-  
-      order: 1;
-    }
-  
-    .product-page__image {
-      width: 225px;
-      height: 300px;
-  
-      border-radius: 113px 113px 17px 17px;
-    }
-  
-    .product-page__glow {
-      width: 280px;
-      height: 280px;
-  
-      opacity: 0.12;
-    }
-  
-  
-    /* =======================================================
-       CONTENT
-    ======================================================= */
-  
-    .product-page__content {
-      width: 100%;
-  
-      max-width: 340px;
-  
-      margin: 0 auto;
-  
-      text-align: center;
-  
-      order: 2;
-    }
-  
-  
-    /* =======================================================
-       EYEBROW
-    ======================================================= */
-  
-    .product-page__eyebrow {
-      margin-bottom: 7px;
-  
-      font-size: 0.59rem;
-  
-      letter-spacing: 0.19em;
-    }
-  
-  
-    /* =======================================================
-       TITLE
-    ======================================================= */
-  
-    .product-page__title {
-      max-width: 340px;
-  
-      margin-inline: auto;
-  
-      font-size: 3rem;
-  
-      line-height: 0.86;
-  
-      letter-spacing: -0.035em;
-    }
-  
-  
-    /* =======================================================
-       PRICE
-    ======================================================= */
-  
-    .product-page__price {
-      margin-top: 12px;
-  
-      font-size: 1.65rem;
-    }
-  
-  
-    /* =======================================================
-       SHADE
-    ======================================================= */
-  
+  .product-page {
+    min-height: auto;
+
+    padding: 12px 0 35px;
+
+    overflow: hidden;
+  }
+
+
+  /* =======================================================
+     CONTAINER
+  ======================================================= */
+
+  .product-page__container {
+    width: calc(100% - 28px);
+
+    min-height: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0;
+  }
+
+
+  /* =======================================================
+     PRODUCT VISUAL
+  ======================================================= */
+
+  .product-page__visual {
+    width: 100%;
+
+    /*
+      The image is the hero.
+      Give it enough vertical space to dominate the screen.
+    */
+    height: 385px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    order: 1;
+
+    touch-action: pan-y;
+  }
+
+
+  /* =======================================================
+     PRODUCT IMAGE
+  ======================================================= */
+
+  .product-page__image {
+    width: 235px;
+    height: 305px;
+
+    border-radius: 118px 118px 18px 18px;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    -webkit-touch-callout: none;
+  }
+
+
+  /* =======================================================
+     GLOW
+  ======================================================= */
+
+  .product-page__glow {
+    width: 310px;
+    height: 310px;
+
+    opacity: 0.12;
+  }
+
+
+  /* =======================================================
+     MOBILE SHADE SELECTOR
+  ======================================================= */
+
+  .product-page__mobile-shade {
+    display: block;
+
+    width: 100%;
+
+    margin-top: 10px;
+  }
+
+  .product-page__mobile-shade
     .product-page__shade {
-      margin-top: 20px;
-    }
-  
+    margin-top: 0;
+  }
+
+  .product-page__mobile-shade
     .product-page__shade-header {
-      justify-content: center;
-  
-      font-size: 0.74rem;
-    }
-  
-  
-    /* =======================================================
-       SWATCHES
-    ======================================================= */
-  
-    .product-page__swatches {
-      justify-content: center;
-  
-      gap: 11px;
-  
-      margin-top: 10px;
-    }
-  
-    .product-page__swatch {
-      width: 30px;
-      height: 30px;
-    }
-  
-    .product-page__swatch span {
-      width: 21px;
-      height: 21px;
-    }
-  
-  
-    /* =======================================================
-       PURCHASE
-    ======================================================= */
-  
-    .product-page__purchase {
-      width: 100%;
-  
-      margin-top: 20px;
-  
-      gap: 9px;
-  
-      justify-content: center;
-    }
-  
-  
-    /* =======================================================
-       QUANTITY
-    ======================================================= */
-  
-    .product-page__quantity {
-      height: 48px;
-    }
-  
-    .product-page__quantity button {
-      width: 37px;
-    }
-  
-    .product-page__quantity span {
-      min-width: 22px;
-  
-      font-size: 0.86rem;
-    }
-  
-  
-    /* =======================================================
-       ADD TO BAG
-    ======================================================= */
-  
-    .product-page__add {
-      height: 48px;
-  
-      font-size: 0.7rem;
-    }
-  
-  
-    /* =======================================================
-       DETAILS
-    ======================================================= */
-  
-    .product-page__details {
-      margin-top: 20px;
-  
-      padding-top: 15px;
-  
-      gap: 8px;
-  
-      text-align: left;
-    }
-  
-    .product-page__detail {
-      gap: 9px;
-  
-      font-size: 0.68rem;
-  
-      line-height: 1.4;
-    }
-  
-    .product-page__detail span {
-      min-width: 80px;
-    }
-  }
-  
-  
-  /* =========================================================
-     SMALL MOBILE
-  ========================================================= */
-  
-  @media (max-width: 420px) {
-  
-    .product-page {
-      padding: 20px 0 40px;
-    }
-  
-  
-    /* =======================================================
-       CONTAINER
-    ======================================================= */
-  
-    .product-page__container {
-      width: calc(100% - 24px);
-    }
-  
-  
-    /* =======================================================
-       PRODUCT VISUAL
-    ======================================================= */
-  
-    .product-page__visual {
-      height: 295px;
-    }
-  
-    .product-page__image {
-      width: 205px;
-      height: 280px;
-  
-      border-radius: 103px 103px 16px 16px;
-    }
-  
-    .product-page__glow {
-      width: 255px;
-      height: 255px;
-    }
-  
-  
-    /* =======================================================
-       CONTENT
-    ======================================================= */
-  
-    .product-page__content {
-      max-width: 300px;
-    }
-  
-  
-    /* =======================================================
-       HEADING
-    ======================================================= */
-  
-    .product-page__eyebrow {
-      font-size: 0.57rem;
-  
-      letter-spacing: 0.18em;
-    }
-  
-    .product-page__title {
-      max-width: 300px;
-  
-      font-size: 2.75rem;
-  
-      line-height: 0.86;
-    }
-  
-  
-    /* =======================================================
-       PRICE
-    ======================================================= */
-  
-    .product-page__price {
-      margin-top: 11px;
-  
-      font-size: 1.55rem;
-    }
-  
-  
-    /* =======================================================
-       SHADE
-    ======================================================= */
-  
-    .product-page__shade {
-      margin-top: 18px;
-    }
-  
-    .product-page__swatches {
-      gap: 9px;
-  
-      margin-top: 9px;
-    }
-  
-    .product-page__swatch {
-      width: 29px;
-      height: 29px;
-    }
-  
-    .product-page__swatch span {
-      width: 20px;
-      height: 20px;
-    }
-  
-  
-    /* =======================================================
-       PURCHASE
-    ======================================================= */
-  
-    .product-page__purchase {
-      margin-top: 19px;
-  
-      gap: 8px;
-    }
-  
-    .product-page__quantity {
-      height: 46px;
-    }
-  
-    .product-page__quantity button {
-      width: 35px;
-    }
-  
-    .product-page__add {
-      height: 46px;
-  
-      font-size: 0.68rem;
-    }
-  
-  
-    /* =======================================================
-       DETAILS
-    ======================================================= */
-  
-    .product-page__details {
-      margin-top: 19px;
-  
-      padding-top: 14px;
-  
-      gap: 7px;
-    }
-  
-    .product-page__detail {
-      gap: 8px;
-  
-      font-size: 0.65rem;
-    }
-  
-    .product-page__detail span {
-      min-width: 76px;
-    }
+    justify-content: center;
+
+    font-size: 0.74rem;
   }
 
-  @media (max-width: 768px) {
-    .product-page__toast {
-      left: 16px;
-      right: 16px;
-      bottom: 18px;
-      gap: 12px;
-      padding: 14px;
-    }
-  
-    .product-page__toast > div {
-      flex: 1;
-    }
-  
-    .product-page__toast-link {
-      white-space: nowrap;
-    }
+  .product-page__mobile-shade
+    .product-page__swatches {
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 8px;
   }
 
-  @media (max-width: 768px) {
-    .product-page__view-bag {
-      margin-top: 11px;
-      font-size: 0.68rem;
-    }
+  .product-page__mobile-shade
+    .product-page__swatch {
+    width: 30px;
+    height: 30px;
   }
+
+  .product-page__mobile-shade
+    .product-page__swatch span {
+    width: 21px;
+    height: 21px;
+  }
+
+
+  /* =======================================================
+     HIDE DESKTOP SHADE
+  ======================================================= */
+
+  .product-page__desktop-shade {
+    display: none;
+  }
+
+
+  /* =======================================================
+     CONTENT
+  ======================================================= */
+
+  .product-page__content {
+    width: 100%;
+
+    max-width: 350px;
+
+    margin: 0 auto;
+
+    text-align: center;
+
+    order: 2;
+  }
+
+
+  /* =======================================================
+     EYEBROW
+  ======================================================= */
+
+  .product-page__eyebrow {
+    margin: 6px 0 7px;
+
+    font-size: 0.58rem;
+
+    letter-spacing: 0.19em;
+  }
+
+
+  /* =======================================================
+     TITLE
+  ======================================================= */
+
+  .product-page__title {
+    max-width: 350px;
+
+    margin-inline: auto;
+
+    font-size: 2.85rem;
+
+    line-height: 0.88;
+
+    letter-spacing: -0.035em;
+  }
+
+
+  /* =======================================================
+     PRICE
+  ======================================================= */
+
+  .product-page__price {
+    margin-top: 10px;
+
+    font-size: 1.6rem;
+  }
+
+
+  /* =======================================================
+     PURCHASE
+  ======================================================= */
+
+  .product-page__purchase {
+    width: 100%;
+
+    margin-top: 17px;
+
+    gap: 9px;
+
+    justify-content: center;
+  }
+
+
+  /* =======================================================
+     QUANTITY
+  ======================================================= */
+
+  .product-page__quantity {
+    height: 47px;
+  }
+
+  .product-page__quantity button {
+    width: 37px;
+  }
+
+  .product-page__quantity span {
+    min-width: 23px;
+
+    font-size: 0.85rem;
+  }
+
+
+  /* =======================================================
+     ADD TO BAG
+  ======================================================= */
+
+  .product-page__add {
+    height: 47px;
+
+    font-size: 0.69rem;
+  }
+
+
+  /* =======================================================
+     VIEW BAG
+  ======================================================= */
+
+  .product-page__view-bag {
+    margin-top: 9px;
+
+    font-size: 0.66rem;
+  }
+
+
+  /* =======================================================
+     PRODUCT DETAILS
+  ======================================================= */
+
+  .product-page__details {
+    margin-top: 18px;
+
+    padding-top: 13px;
+
+    gap: 7px;
+
+    text-align: left;
+  }
+
+  .product-page__detail {
+    gap: 8px;
+
+    font-size: 0.66rem;
+
+    line-height: 1.4;
+  }
+
+  .product-page__detail span {
+    min-width: 76px;
+  }
+
+
+  /* =======================================================
+     TOAST
+  ======================================================= */
+
+  .product-page__toast {
+    left: 16px;
+    right: 16px;
+
+    bottom: 18px;
+
+    gap: 12px;
+
+    padding: 14px;
+  }
+
+  .product-page__toast > div {
+    flex: 1;
+  }
+
+  .product-page__toast-link {
+    white-space: nowrap;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .product-page {
+    padding: 8px 0 32px;
+  }
+
+
+  /* =======================================================
+     CONTAINER
+  ======================================================= */
+
+  .product-page__container {
+    width: calc(100% - 24px);
+  }
+
+
+  /* =======================================================
+     PRODUCT VISUAL
+  ======================================================= */
+
+  .product-page__visual {
+    /*
+      Still large enough for the product
+      to remain the visual hero.
+    */
+    height: 355px;
+  }
+
+
+  /* =======================================================
+     PRODUCT IMAGE
+  ======================================================= */
+
+  .product-page__image {
+    width: 220px;
+    height: 285px;
+
+    border-radius: 110px 110px 17px 17px;
+  }
+
+
+  /* =======================================================
+     GLOW
+  ======================================================= */
+
+  .product-page__glow {
+    width: 285px;
+    height: 285px;
+  }
+
+
+  /* =======================================================
+     MOBILE SHADE
+  ======================================================= */
+
+  .product-page__mobile-shade {
+    margin-top: 9px;
+  }
+
+  .product-page__mobile-shade
+    .product-page__shade-header {
+    font-size: 0.72rem;
+  }
+
+  .product-page__mobile-shade
+    .product-page__swatches {
+    gap: 8px;
+
+    margin-top: 7px;
+  }
+
+  .product-page__mobile-shade
+    .product-page__swatch {
+    width: 29px;
+    height: 29px;
+  }
+
+  .product-page__mobile-shade
+    .product-page__swatch span {
+    width: 20px;
+    height: 20px;
+  }
+
+
+  /* =======================================================
+     CONTENT
+  ======================================================= */
+
+  .product-page__content {
+    max-width: 310px;
+  }
+
+
+  /* =======================================================
+     EYEBROW
+  ======================================================= */
+
+  .product-page__eyebrow {
+    margin: 5px 0 7px;
+
+    font-size: 0.55rem;
+
+    letter-spacing: 0.17em;
+  }
+
+
+  /* =======================================================
+     TITLE
+  ======================================================= */
+
+  .product-page__title {
+    max-width: 310px;
+
+    font-size: 2.62rem;
+
+    line-height: 0.87;
+  }
+
+
+  /* =======================================================
+     PRICE
+  ======================================================= */
+
+  .product-page__price {
+    margin-top: 8px;
+
+    font-size: 1.5rem;
+  }
+
+
+  /* =======================================================
+     PURCHASE
+  ======================================================= */
+
+  .product-page__purchase {
+    margin-top: 15px;
+
+    gap: 7px;
+  }
+
+  .product-page__quantity {
+    height: 45px;
+  }
+
+  .product-page__quantity button {
+    width: 34px;
+  }
+
+  .product-page__add {
+    height: 45px;
+
+    font-size: 0.65rem;
+  }
+
+
+  /* =======================================================
+     VIEW BAG
+  ======================================================= */
+
+  .product-page__view-bag {
+    margin-top: 8px;
+
+    font-size: 0.63rem;
+  }
+
+
+  /* =======================================================
+     DETAILS
+  ======================================================= */
+
+  .product-page__details {
+    margin-top: 16px;
+
+    padding-top: 12px;
+  }
+
+  .product-page__detail {
+    font-size: 0.63rem;
+  }
+
+  .product-page__detail span {
+    min-width: 74px;
+  }
+}

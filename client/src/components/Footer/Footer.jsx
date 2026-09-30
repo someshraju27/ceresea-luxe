@@ -22,39 +22,43 @@ function Footer() {
           </p>
         </div>
 
+
         {/* LINKS */}
         <div className="footer__links">
 
+          {/* SHOP */}
           <div className="footer__column">
             <h3>Shop</h3>
 
-            <Link to="/">Home</Link>
+            <Link to="/">
+              Home
+            </Link>
 
             <Link to="/product">
               Our Lip Balm
             </Link>
 
-            <Link to="/#about">
+            <a href="/#about">
               About
-            </Link>
+            </a>
 
             <Link to="/bag">
               Bag
             </Link>
           </div>
 
+
+          {/* CUSTOMER CARE */}
           <div className="footer__column">
             <h3>Customer Care</h3>
 
-            <a
-              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${contactEmail}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={`mailto:${contactEmail}`}>
               Email Us
             </a>
           </div>
 
+
+          {/* FOLLOW */}
           <div className="footer__column">
             <h3>Follow</h3>
 
@@ -69,6 +73,7 @@ function Footer() {
 
         </div>
       </div>
+
 
       {/* BOTTOM */}
       <div className="footer__bottom">
