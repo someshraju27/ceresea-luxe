@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../../context/AuthContext";
-import { verifyPincode } from "../../utils/pincode";
 import "./Account.css";
 
 function Account() {
@@ -96,7 +95,10 @@ function Account() {
     }
   };
 
-  // Saved addresses
+  // ==========================================
+  // SAVED ADDRESSES
+  // ==========================================
+
   const [addresses, setAddresses] = useState([]);
   const [addressesLoading, setAddressesLoading] =
     useState(false);
@@ -116,13 +118,6 @@ function Account() {
     state: "",
     pincode: "",
   });
-
-  const [pincodeChecking, setPincodeChecking] =
-    useState(false);
-  const [pincodeVerified, setPincodeVerified] =
-    useState(false);
-  const [pincodeMessage, setPincodeMessage] =
-    useState("");
 
   // ==========================================
   // FETCH ORDERS
@@ -268,7 +263,7 @@ function Account() {
     if (order.paymentStatus === "failed") {
       return false;
     }
-  
+
     return order.orderStatus === "confirmed";
   };
 
@@ -339,49 +334,13 @@ function Account() {
   // ADDRESS HELPERS
   // ==========================================
 
-  const handleAddressChange = async (e) => {
+  const handleAddressChange = (e) => {
     const { name, value } = e.target;
 
     setAddressForm((prev) => ({
       ...prev,
       [name]: value,
     }));
-
-    if (name === "pincode") {
-      setPincodeVerified(false);
-      setPincodeMessage("");
-
-      if (
-        value.length === 6 &&
-        /^\d{6}$/.test(value)
-      ) {
-        setPincodeChecking(true);
-
-        const result = await verifyPincode(value);
-
-        setPincodeChecking(false);
-
-        if (result.valid) {
-          setPincodeVerified(true);
-          setPincodeMessage(result.message);
-
-          setAddressForm((prev) => ({
-            ...prev,
-            city: result.city,
-            state: result.state,
-          }));
-        } else {
-          setPincodeVerified(false);
-          setPincodeMessage(result.message);
-
-          setAddressForm((prev) => ({
-            ...prev,
-            city: "",
-            state: "",
-          }));
-        }
-      }
-    }
   };
 
   const resetAddressForm = () => {
@@ -675,9 +634,7 @@ function Account() {
                     <input
                       type="tel"
                       value={phoneNumber}
-                      onChange={
-                        handlePhoneChange
-                      }
+                      onChange={handlePhoneChange}
                       placeholder="10-digit mobile number"
                       inputMode="numeric"
                       maxLength={10}
@@ -917,22 +874,6 @@ function Account() {
                     onChange={handleAddressChange}
                     placeholder="500001"
                   />
-
-                  <div
-                    className={`account-address-form__pincode-message ${
-                      pincodeChecking
-                        ? "account-address-form__pincode-message--checking"
-                        : pincodeVerified
-                        ? "account-address-form__pincode-message--success"
-                        : pincodeMessage
-                        ? "account-address-form__pincode-message--error"
-                        : ""
-                    }`}
-                  >
-                    {pincodeChecking
-                      ? "Checking pincode..."
-                      : pincodeMessage}
-                  </div>
                 </div>
               </div>
 
