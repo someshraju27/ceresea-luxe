@@ -8,7 +8,6 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer__container">
-
         {/* BRAND */}
         <div className="footer__brand">
           <Link to="/" className="footer__logo">
@@ -22,31 +21,37 @@ function Footer() {
           </p>
         </div>
 
-
         {/* LINKS */}
         <div className="footer__links">
-
           {/* SHOP */}
           <div className="footer__column">
             <h3>Shop</h3>
 
-            <Link to="/">
-              Home
-            </Link>
+            <Link to="/">Home</Link>
 
-            <Link to="/product">
-              Our Lip Balm
-            </Link>
+            <Link to="/product">Our Lip Balm</Link>
 
-            <a href="/#about">
-              About
-            </a>
+            <a href="/#about">About</a>
 
-            <Link to="/bag">
-              Bag
-            </Link>
+            <Link to="/bag">Bag</Link>
           </div>
 
+          {/* LEGAL */}
+          <div className="footer__column">
+            <h3>Legal</h3>
+
+            <Link to="/terms">
+              Terms & Conditions
+            </Link>
+
+            <Link to="/privacy">
+              Privacy Policy
+            </Link>
+
+            <Link to="/refund-policy">
+              Refund & Cancellation
+            </Link>
+          </div>
 
           {/* CUSTOMER CARE */}
           <div className="footer__column">
@@ -56,7 +61,6 @@ function Footer() {
               Email Us
             </a>
           </div>
-
 
           {/* FOLLOW */}
           <div className="footer__column">
@@ -70,14 +74,11 @@ function Footer() {
               Instagram
             </a>
           </div>
-
         </div>
       </div>
 
-
       {/* BOTTOM */}
       <div className="footer__bottom">
-
         <p>
           © {new Date().getFullYear()} Ceresea
         </p>
@@ -85,7 +86,6 @@ function Footer() {
         <p className="footer__made">
           Made with care.
         </p>
-
       </div>
     </footer>
   );

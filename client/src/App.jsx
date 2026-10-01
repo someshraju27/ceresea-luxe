@@ -24,6 +24,11 @@ import AdminOrders from "./pages/AdminOrders/AdminOrders";
 
 import AdminOrderDetails from "./pages/AdminOrderDetails/AdminOrderDetails";
 
+
+import Terms from "./pages/Terms/Terms";
+import Privacy from "./pages/Privacy/privacy";
+import RefundPolicy from "./pages/RefundPolicy/RefundPolicy";
+
 function Home() {
   return (
     <>
@@ -48,14 +53,26 @@ function App() {
         <Route path="/bag" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/account" element={<Account />} />
-        <Route path="/order-confirmation" element={<OrderConfirmation />} />
+        <Route
+          path="/order-confirmation"
+          element={<OrderConfirmation />}
+        />
+
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route
+          path="/refund-policy"
+          element={<RefundPolicy />}
+        />
+
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/orders" element={<AdminOrders />} />
-        <Route path="/admin/orders/:orderId" element={<AdminOrderDetails />}
-      />
-
+        <Route
+          path="/admin/orders/:orderId"
+          element={<AdminOrderDetails />}
+        />
       </Routes>
-    </>
+          </>
   );
 }
 
