@@ -1,6 +1,7 @@
 import "./RefundPolicy.css";
 
 function RefundPolicy() {
+    const contactEmail = import.meta.env.VITE_CONTACT_EMAIL;
   return (
     <main className="legal-page">
       <div className="legal-page__container">
@@ -90,10 +91,10 @@ function RefundPolicy() {
           </p>
 
           <a
-            href="mailto:ceresea.luxe11@gmail.com"
+            href={`mailto:${contactEmail}`}
             className="legal-page__email"
           >
-            ceresea.luxe11@gmail.com
+            {contactEmail}
           </a>
         </section>
 

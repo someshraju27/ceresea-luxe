@@ -1,12 +1,12 @@
 import "./Privacy.css";
 
 function Privacy() {
+  const contactEmail = import.meta.env.VITE_CONTACT_EMAIL;
+
   return (
     <main className="legal-page">
       <div className="legal-page__container">
-        <p className="legal-page__eyebrow">
-          CERESEA
-        </p>
+        <p className="legal-page__eyebrow">CERESEA</p>
 
         <h1>Privacy Policy</h1>
 
@@ -135,10 +135,10 @@ function Privacy() {
           </p>
 
           <a
-            href="mailto:ceresea.luxe11@gmail.com"
+            href={`mailto:${contactEmail}`}
             className="legal-page__email"
           >
-            ceresea.luxe11@gmail.com
+            {contactEmail}
           </a>
         </section>
       </div>
