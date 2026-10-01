@@ -26,7 +26,7 @@ import AdminOrderDetails from "./pages/AdminOrderDetails/AdminOrderDetails";
 
 
 import Terms from "./pages/Terms/Terms";
-import Privacy from "./pages/Privacy/privacy";
+import Privacy from "./pages/Privacy/Privacy";
 import RefundPolicy from "./pages/RefundPolicy/RefundPolicy";
 
 function Home() {
