@@ -41,6 +41,26 @@ router.post(
         });
       }
 
+      // ---------------------------------------------
+      // Razorpay configuration check
+      // ---------------------------------------------
+
+      console.log("Razorpay configuration check:", {
+        keyIdPresent: Boolean(
+          process.env.RAZORPAY_KEY_ID
+        ),
+        keyIdPrefix: process.env.RAZORPAY_KEY_ID
+          ? process.env.RAZORPAY_KEY_ID.substring(0, 12)
+          : null,
+        keySecretPresent: Boolean(
+          process.env.RAZORPAY_KEY_SECRET
+        ),
+      });
+
+      // ---------------------------------------------
+      // Create Razorpay Order
+      // ---------------------------------------------
+
       const razorpayOrder =
         await razorpay.orders.create({
           amount: order.totalAmount * 100,
@@ -54,6 +74,15 @@ router.post(
               req.user._id.toString(),
           },
         });
+
+      console.log(
+        "Razorpay order created successfully:",
+        {
+          id: razorpayOrder.id,
+          amount: razorpayOrder.amount,
+          currency: razorpayOrder.currency,
+        }
+      );
 
       order.razorpayOrderId =
         razorpayOrder.id;
@@ -77,8 +106,56 @@ router.post(
           process.env.RAZORPAY_KEY_ID,
       });
     } catch (error) {
+      // ---------------------------------------------
+      // Detailed Razorpay error logging
+      // ---------------------------------------------
+
       console.error(
-        "Create Razorpay order error:",
+        "Create Razorpay order error:"
+      );
+
+      console.error(
+        "Error message:",
+        error?.message
+      );
+
+      console.error(
+        "Error status code:",
+        error?.statusCode
+      );
+
+      console.error(
+        "Error code:",
+        error?.error?.code
+      );
+
+      console.error(
+        "Error description:",
+        error?.error?.description
+      );
+
+      console.error(
+        "Error source:",
+        error?.error?.source
+      );
+
+      console.error(
+        "Error reason:",
+        error?.error?.reason
+      );
+
+      console.error(
+        "Error metadata:",
+        error?.error?.metadata
+      );
+
+      console.error(
+        "Razorpay error object:",
+        error?.error
+      );
+
+      console.error(
+        "Full error:",
         error
       );
 
@@ -314,25 +391,32 @@ router.post(
           order.razorpayOrderId
         );
 
-      const paymentItems = payments?.items || [];
+      const paymentItems =
+        payments?.items || [];
 
       // Find a captured payment matching our order
-      const capturedPayment = paymentItems.find(
-        (payment) =>
-          payment.status === "captured" &&
-          payment.order_id === order.razorpayOrderId &&
-          payment.currency === "INR" &&
-          payment.amount === order.totalAmount * 100
-      );
+      const capturedPayment =
+        paymentItems.find(
+          (payment) =>
+            payment.status === "captured" &&
+            payment.order_id ===
+              order.razorpayOrderId &&
+            payment.currency === "INR" &&
+            payment.amount ===
+              order.totalAmount * 100
+        );
 
       // Payment is not captured yet
       if (!capturedPayment) {
         return res.status(200).json({
-          message: "Payment not confirmed yet",
+          message:
+            "Payment not confirmed yet",
           order: {
             id: order._id,
-            paymentStatus: order.paymentStatus,
-            orderStatus: order.orderStatus,
+            paymentStatus:
+              order.paymentStatus,
+            orderStatus:
+              order.orderStatus,
           },
         });
       }
@@ -350,7 +434,8 @@ router.post(
       );
 
       return res.status(200).json({
-        message: "Payment reconciled successfully",
+        message:
+          "Payment reconciled successfully",
         order,
       });
     } catch (error) {
@@ -360,7 +445,8 @@ router.post(
       );
 
       return res.status(500).json({
-        message: "Failed to reconcile payment",
+        message:
+          "Failed to reconcile payment",
       });
     }
   }
